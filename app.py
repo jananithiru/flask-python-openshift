@@ -80,29 +80,5 @@ def resolve_task(task_id):
     db.session.commit()
     return redirect('/')
 
-@app.route('/offerhelp')
-def offer_help():
-    offers = OfferHelp.query.all()
-    return render_template('offerHelp.html', offers=offers)
-
-@app.route('/addhelp', methods=['POST'])
-def addHelp():
-   what = request.form['what']
-   if not what:
-       return "Error: We don't know what you wan't to do. Please share this with us!"
-   when = request.form['when']
-   if not when:
-       return "We appreciate that you wan't to offer your time always. Still please submit a time where you wan't to help others with your valuable time!"
-
-   offerhelp = OfferHelp(what, when)
-   db.session.add(offerhelp)
-   db.session.commit()
-
-   return redirect('/')
-    
-@app.route('/addedhelp')
-def added_help():
-    return render_template('addedHelp.html')
-
 if __name__ == '__main__':
     flaskrun(app)
