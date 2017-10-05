@@ -17,3 +17,15 @@ ul, form, h2 {
     <p><input type="date" name="when"></p>
     <input type="submit" value="Offer help">
 </form>
+
+<h2>
+  Already offered help
+</h2>
+
+<ul>
+{% for offer in offers %}
+   <li>
+	   What: {{ offer.what }} When: {{ offer.when }}
+   </li>
+{% endfor %}
+</ul>
