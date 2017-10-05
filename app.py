@@ -1,10 +1,14 @@
-from flask import Flask, request, render_template, redirect
+import os
+
+from datetime import datetime
+
+from flask import Flask, request, render_template, redirect, session
 from flask_sqlalchemy import SQLAlchemy
 from flaskrun import flaskrun
 
 from flask_bootstrap import Bootstrap
 
-from datetime import datetime
+import userlogin
 
 
 app = Flask(__name__)
@@ -43,7 +47,10 @@ db.create_all()
 
 @app.route('/')
 def map():
-    return render_template('base.html')
+    if not session.get('logged_in'):
+        return render_template('login.html')
+    else:
+        return render_template('base.html')
 
 
 @app.route('/helpRequestList')
@@ -92,5 +99,29 @@ def addHelp():
     return redirect('/HelpOfferList')
 
 
+@app.route('/login', methods=['POST'])
+def do_login():
+    userlogin.do_admin_login()
+    return redirect('/HelpOfferList')
+
+
+@app.route('/logout')
+def do_logout():
+    session['logged_in'] = False
+    return redirect('/')
+
+
+@app.route('/adduser')
+def add_user():
+    return render_template('adduser.html')
+
+
+@app.route('/submituser', methods=['POST'])
+def submit_user():
+    userlogin.add_user()
+    return redirect('/HelpOfferList')
+
+
 if __name__ == '__main__':
+    app.secret_key = os.urandom(12)
     flaskrun(app)

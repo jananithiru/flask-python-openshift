@@ -1,11 +1,14 @@
 {% extends "bootstrap/base.html" %}
-{% block title %}{% endblock %}
+{% block title %}Time Trader for a good cause {% endblock %}
+{% block content %}
 <style>
 ul, form, h2 {
   font-family: sans-serif;
 }
 </style>
 <div class="container">
-{% block content %}
+{% block embedded %}
 {% endblock %}
+<a href="/logout">Log Out</a>
 </div>
+ {% endblock %}
