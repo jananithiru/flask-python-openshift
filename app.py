@@ -25,7 +25,25 @@ class HelpRequest(db.Model):
         self.end_time = end_time
 
 
+class HelpOffer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    what = db.Column(db.Text)
+    when = db.Column(db.Text)
+
+    def __init__(self, what, when):
+        self.what = what
+        self.when = when
+
+    def __repr__(self):
+        return '<Offer: %s | %s>' % self.what, self.when
+
+
 db.create_all()
+
+
+@app.route('/')
+def map():
+    return render_template('base.html')
 
 
 @app.route('/helpRequestList')
@@ -45,15 +63,33 @@ def add_help_event():
         return 'Error'
 
     fmt = "%Y-%m-%d"
-    event = HelpRequest(datetime.strptime(start_time, fmt), datetime.strptime(end_time, fmt))
+    event = HelpRequest(datetime.strptime(start_time, fmt),
+                        datetime.strptime(end_time, fmt))
     db.session.add(event)
     db.session.commit()
     return redirect('/helpRequestList')
 
 
-@app.route('/')
-def map():
-    return render_template('base.html')
+@app.route('/HelpOfferList')
+def offer_help():
+    offers = HelpOffer.query.all()
+    return render_template('helpOfferList.html', offers=offers)
+
+
+@app.route('/HelpOffer', methods=['POST'])
+def addHelp():
+    what = request.form['what']
+    if not what:
+        return "Error: We don't know what you wan't to do. Please share this with us!"
+    when = request.form['when']
+    if not when:
+        return "We appreciate that you wan't to offer your time always. Still please submit a time where you wan't to help others with your valuable time!"
+
+    offerhelp = HelpOffer(what, when)
+    db.session.add(offerhelp)
+    db.session.commit()
+
+    return redirect('/HelpOfferList')
 
 
 if __name__ == '__main__':
