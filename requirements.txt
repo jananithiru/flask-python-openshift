@@ -1,4 +1,4 @@
 Flask==0.10.1
 SQLAlchemy==1.1.13
 Flask-SQLAlchemy==2.2
-Flask-==3.3.7.1
+Flask-Bootstrap==3.3.7.1
