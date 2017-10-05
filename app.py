@@ -68,6 +68,10 @@ def resolve_task(task_id):
     db.session.commit()
     return redirect('/')
 
+@app.route('/offerhelp')
+def offer_help():
+    return 'Hello GHC 2017!'
+
 
 if __name__ == '__main__':
     flaskrun(app)
