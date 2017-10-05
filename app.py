@@ -21,7 +21,19 @@ class Task(db.Model):
     def __repr__(self):
         return '<Content %s>' % self.content
 
+class OfferHelp(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    what = db.Column(db.Text)
+    when = db.Column(db.Text)
 
+    def __init__(self, what, when):
+        self.what = what
+        self.when = when
+
+    def __repr__(self):
+        return '<Offer: %s | %s>' % self.what, self.when
+
+db.drop_all()
 db.create_all()
 
 
@@ -72,6 +84,21 @@ def resolve_task(task_id):
 def offer_help():
     return render_template('offerHelp.html')
 
+@app.route('/addhelp', methods=['POST'])
+def addHelp():
+   what = request.form['what']
+   if not what:
+       return "Error: We don't know what you wan't to do. Please share this with us!"
+   when = request.form['when']
+   if not when:
+       return "We appreciate that you wan't to offer your time always. Still please submit a time where you wan't to help others with your valuable time!"
+
+   offerhelp = OfferHelp(what, when)
+   db.session.add(offerhelp)
+   db.session.commit()
+
+   return redirect('/')
+    
 
 if __name__ == '__main__':
     flaskrun(app)
