@@ -70,7 +70,7 @@ def resolve_task(task_id):
 
 @app.route('/offerhelp')
 def offer_help():
-    return 'Hello GHC 2017!'
+    return render_template('offerHelp.html')
 
 
 if __name__ == '__main__':
