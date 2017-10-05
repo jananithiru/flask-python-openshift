@@ -3,8 +3,10 @@ from flask import render_template
 from flask import redirect
 from flask_sqlalchemy import SQLAlchemy
 from flaskrun import flaskrun
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
+Bootstrap(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
