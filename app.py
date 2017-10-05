@@ -46,7 +46,7 @@ db.create_all()
 
 
 @app.route('/')
-def map():
+def start():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
@@ -120,6 +120,11 @@ def add_user():
 def submit_user():
     userlogin.add_user()
     return redirect('/HelpOfferList')
+
+
+@app.route('/map')
+def map():
+    return render_template('map.html')
 
 
 if __name__ == '__main__':
