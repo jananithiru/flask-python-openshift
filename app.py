@@ -82,7 +82,8 @@ def resolve_task(task_id):
 
 @app.route('/offerhelp')
 def offer_help():
-    return render_template('offerHelp.html')
+    offers = OfferHelp.query.all()
+    return render_template('offerHelp.html', offers=offers)
 
 @app.route('/addhelp', methods=['POST'])
 def addHelp():
@@ -99,6 +100,9 @@ def addHelp():
 
    return redirect('/')
     
+@app.route('/addedhelp')
+def added_help():
+    return render_template('addedHelp.html')
 
 if __name__ == '__main__':
     flaskrun(app)
